@@ -5,3 +5,15 @@ Content-Type: application/json
     "name": "Test product",
     "price": 100
 }
+
+###
+GET http://localhost:8000/products/f0699d63-4142-4cfe-a3fa-16778fdb59ab HTTP/1.1
+
+###
+PUT http://localhost:8000/products/f0699d63-4142-4cfe-a3fa-16778fdb59ab HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Updated product",
+    "price": 150
+}
