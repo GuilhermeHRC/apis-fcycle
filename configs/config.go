@@ -1,6 +1,8 @@
 package configs
 
 import (
+	"fmt"
+
 	"github.com/go-chi/jwtauth"
 	"github.com/spf13/viper"
 )
@@ -24,22 +26,25 @@ type conf struct {
 var cfg *conf
 
 func LoadConfig(path string) (*conf, error) {
+	v := viper.New()
 
-	viper.SetConfigName("app_config")
-	viper.SetConfigType("env")
-	viper.AddConfigPath(path)
-	viper.SetConfigFile(".env")
-	viper.AutomaticEnv()
+	v.SetConfigFile(path + "/.env")
+	v.SetConfigType("env")
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic("Error reading config file: " + err.Error())
-	}
-	err = viper.Unmarshal(&cfg)
-	if err != nil {
-		panic("Error unmarshalling config: " + err.Error())
+	v.AutomaticEnv()
+
+	if err := v.ReadInConfig(); err != nil {
+		fmt.Println("Nenhum .env encontrado, usando apenas variáveis de ambiente")
 	}
 
-	cfg.TokenAuth = jwtauth.New("HS256", []byte(cfg.JWTSecret), nil)
+	var c conf
+	if err := v.Unmarshal(&c); err != nil {
+		return nil, fmt.Errorf("erro ao mapear configuração: %w", err)
+	}
+
+	// JWT Auth
+	c.TokenAuth = jwtauth.New("HS256", []byte(c.JWTSecret), nil)
+
+	cfg = &c
 	return cfg, nil
 }
