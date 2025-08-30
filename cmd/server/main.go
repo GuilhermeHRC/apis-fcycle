@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/GuilhermeHRC/apis-fcycle/configs"
-	_ "github.com/GuilhermeHRC/apis-fcycle/docs"
+	docs "github.com/GuilhermeHRC/apis-fcycle/docs"
 	"github.com/GuilhermeHRC/apis-fcycle/internal/entity"
 	"github.com/GuilhermeHRC/apis-fcycle/internal/infra/database"
 	"github.com/GuilhermeHRC/apis-fcycle/internal/infra/webserver/handlers"
@@ -69,7 +69,7 @@ func main() {
 		r.Post("/", userHandler.Create)
 		r.Post("/generate-token", userHandler.GetJWT)
 	})
-
+	docs.SwaggerInfo.Host = configs.API_URL
 	r.Get("/docs/*", httpSwagger.Handler(
 		httpSwagger.URL(fmt.Sprintf("%s/docs/doc.json", configs.API_URL)),
 	))
