@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/GuilhermeHRC/apis-fcycle/configs"
@@ -12,7 +13,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/jwtauth"
 	httpSwagger "github.com/swaggo/http-swagger"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -35,10 +36,15 @@ func main() {
 		panic("Failed to load configuration: " + err.Error())
 	}
 
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	if err != nil {
-		panic("Failed to connect to database: " + err.Error())
-	}
+	// db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	// if err != nil {
+	// 	panic("Failed to connect to database: " + err.Error())
+	// }
+
+	// Postgres connection
+	db, err := gorm.Open(postgres.Open(
+		fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+			configs.DBHost, configs.DBUser, configs.DBPassword, configs.DBName, configs.DBPort)), &gorm.Config{})
 
 	db.AutoMigrate(&entity.Product{}, &entity.User{})
 
