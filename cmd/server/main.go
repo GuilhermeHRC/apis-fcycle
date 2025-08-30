@@ -31,6 +31,7 @@ import (
 // @in header
 // @name Authorization
 func main() {
+
 	configs, err := configs.LoadConfig(".")
 	if err != nil {
 		panic("Failed to load configuration: " + err.Error())

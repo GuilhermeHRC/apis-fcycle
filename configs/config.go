@@ -26,10 +26,22 @@ type conf struct {
 var cfg *conf
 
 func LoadConfig(path string) (*conf, error) {
+
 	v := viper.New()
 
 	v.SetConfigFile(path + "/.env")
 	v.SetConfigType("env")
+
+	// Testing
+	v.BindEnv("DB_DRIVER")
+	v.BindEnv("DB_HOST")
+	v.BindEnv("DB_PORT")
+	v.BindEnv("DB_USER")
+	v.BindEnv("DB_PASSWORD")
+	v.BindEnv("DB_NAME")
+	v.BindEnv("WEB_SERVER_PORT")
+	v.BindEnv("JWT_SECRET")
+	v.BindEnv("JWT_EXPIRES_IN")
 
 	v.AutomaticEnv()
 
@@ -44,7 +56,7 @@ func LoadConfig(path string) (*conf, error) {
 
 	// JWT Auth
 	c.TokenAuth = jwtauth.New("HS256", []byte(c.JWTSecret), nil)
-
 	cfg = &c
+	fmt.Println("CFG : ", cfg.DBDriver)
 	return cfg, nil
 }
