@@ -34,7 +34,7 @@ func LoadConfig(path string) (*conf, error) {
 	v.AutomaticEnv()
 
 	if err := v.ReadInConfig(); err != nil {
-		fmt.Println("Nenhum .env encontrado, usando apenas variáveis de ambiente")
+		fmt.Println("Nenhum .env encontrado, usando apenas variáveis de ambiente!")
 	}
 
 	var c conf
