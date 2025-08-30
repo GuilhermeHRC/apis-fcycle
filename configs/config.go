@@ -20,6 +20,8 @@ type conf struct {
 	JWTSecret    string `mapstructure:"JWT_SECRET"`
 	JWTExpiresIn int    `mapstructure:"JWT_EXPIRES_IN"`
 
+	API_URL string `mapstructure:"API_URL"`
+
 	TokenAuth *jwtauth.JWTAuth `mapstructure:"-"`
 }
 
@@ -42,6 +44,7 @@ func LoadConfig(path string) (*conf, error) {
 	v.BindEnv("WEB_SERVER_PORT")
 	v.BindEnv("JWT_SECRET")
 	v.BindEnv("JWT_EXPIRES_IN")
+	v.BindEnv("API_URL")
 
 	v.AutomaticEnv()
 
