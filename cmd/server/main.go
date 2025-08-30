@@ -25,7 +25,6 @@ import (
 // @contact.name   Guilherme Coelho
 // @contact.email  coelho.ghr@gmail.com
 
-// @host      localhost:8000
 // @BasePath  /
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
